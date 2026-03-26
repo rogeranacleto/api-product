@@ -1,0 +1,23 @@
+services:
+  go-app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - go_db
+    env_file:
+      - .env
+
+  go_db:
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
